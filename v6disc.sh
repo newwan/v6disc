@@ -55,7 +55,7 @@ function usage {
 	       exit 1
            }
 
-VERSION=2.4.1
+VERSION=2.4.2
 
 # initialize some vars
 INTERFACE=""
@@ -620,8 +620,12 @@ do
 					fi
 
 					if (( PING == 1 )); then
-						# ping6 hosts discovered
-						$PING6_CMD $PING6_OPT 1 -c1  "$host"
+					  #ping6 hosts discovered
+						if (( LINK_LOCAL == 0 )); then 
+							$PING6_CMD $PING6_OPT 1 -c1  "$host"
+						else
+							$PING6_CMD $PING6_OPT 1 -c1  $host%$intf
+						fi
 					fi
 					if (( NMAP == 1 )); then
 						# scanning hosts discovered with nmap
